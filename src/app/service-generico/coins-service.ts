@@ -94,9 +94,18 @@ export class CoinsService {
     );
   }
 
+
   
-searchIds(q: string) {
-  const query = q.trim().toLowerCase();
+  searchIds(q: string) {
+  const normalize = (s: string) =>
+    s.toLowerCase()
+     .normalize('NFD').replace(/\p{Diacritic}/gu, '') // quita tildes
+     .replace(/[\s\-_\.]+/g, '');                     // quita espacios/guiones/puntos
+  
+     const query = q.trim().toLowerCase();
+     const qn = normalize(query);
+
+
   const params = new HttpParams({ fromObject: { query: q } });
   return this.http.get<{ coins: { id: string; name: string; symbol: string }[] }>(
     `${this.baseUrl}/search`,
@@ -104,7 +113,11 @@ searchIds(q: string) {
   ).pipe(
     map(res =>
       res.coins
-        .filter(c => (c.id + ' ' + c.name + ' ' + c.symbol).toLowerCase().includes(query))
+        .filter(c => 
+         normalize(c.id) === qn ||
+          normalize(c.symbol) === qn ||
+          normalize(c.name) === qn
+        )
         .map(c => c.id)
     )
   );
