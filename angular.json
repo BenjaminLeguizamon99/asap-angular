@@ -5,7 +5,21 @@
   "projects": {
     "proyecto-final-angular": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component" : {
+          "type": "component",
+          "skipTests": true,
+          "prefix": "",
+          "style": "none"
+        },
+        "@schematics/angular:service" : {
+          "type": "service",
+          "skipTests": true
+        },
+        "@schematics/angular:interface" : {
+          "type": "interface"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",

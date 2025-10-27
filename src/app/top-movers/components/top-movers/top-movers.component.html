@@ -1,0 +1,66 @@
+<section class="mb-6">
+  <h1 class="text-4xl font-bold tracking-tight text-center m-8 font-sans">
+    ASAPCrypto
+  </h1>
+  <p class="mt-1 text-xl text-gray-600 dark:text-gray-800 text-center">
+    Bienvenido a tu página de criptos favoritas. Mira las 4 que más han crecido en las últimas 24 horas. ¡Mantente al tanto del mercado!  
+  </p>
+  <p class="mt-1 text-xl text-gray-600 dark:text-gray-800 text-center">
+    Los valores incluyen precio, variación (1h/24h/7d), market cap y volumen.
+  </p>
+</section>
+
+@if (top4().length === 0) {
+  <div class="grid grid-cols-2 gap-6">
+    <div class="h-28 rounded-lg bg-gray-200/40 animate-pulse"></div>
+    <div class="h-28 rounded-lg bg-gray-200/40 animate-pulse"></div>
+    <div class="h-28 rounded-lg bg-gray-200/40 animate-pulse"></div>
+    <div class="h-28 rounded-lg bg-gray-200/40 animate-pulse"></div>
+  </div>
+} @else {
+  <div class="grid grid-cols-2 gap-6 m-8">
+    @for (c of top4(); track c.id) {
+      <div class="flex items-center gap-4 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+        <img [src]="c.image" [alt]="c.name" class="w-10 h-10 rounded-full" />
+
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2">
+            <h3 class="font-medium truncate">{{ c.name }} ({{ c.symbol | uppercase }})</h3>
+            <span class="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-blue-700 text-gray-200" >#{{ c.market_cap_rank }}</span>
+          </div>
+
+          <div class="mt-1 text-sm text-gray-700 dark:text-gray-700">
+            Precio: {{ c.current_price | currency:'USD':'symbol' }}
+          </div>
+
+          <div class="mt-2 flex flex-wrap items-center gap-2">
+            <span [class]="chipClassStr(c.price_change_percentage_1h_in_currency)">
+                1h: {{ (c.price_change_percentage_1h_in_currency/100) | percent:'1.0-2' }}
+            </span>
+
+            <span [class]="chipClassStr(c.price_change_percentage_24h)">
+                24h: {{ (c.price_change_percentage_24h/100) | percent:'1.0-2' }}
+            </span>
+
+            <span [class]="chipClassStr(c.price_change_percentage_7d_in_currency)">
+                7d: {{ (c.price_change_percentage_7d_in_currency/100) | percent:'1.0-2' }}
+            </span>
+           </div>
+
+
+          <div class="mt-2 text-xs text-gray-500 dark:text-gray-400 flex flex-wrap gap-x-4 gap-y-1">
+            <span>Cap: ${{ abbr(c.market_cap) }}</span>
+            <span>Vol 24h: ${{ abbr(c.total_volume) }}</span>
+            <span>ATH: {{ (c.ath_change_percentage/100) | percent:'1.0-1' }}</span>
+            <span>Upd: {{ c.last_updated | date:'shortTime' }}</span>
+          </div>
+        </div>
+
+      </div>
+    }
+  </div>
+  <div class="flex justify-center">
+    <a [routerLink]="['/menu', 'monedas']" class=" mt-8 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-1/2">Ver todas las monedas</a>
+  </div>
+
+}
