@@ -16,8 +16,10 @@ Aplicación web construida con **Angular (nueva generación, standalone + signal
 * **Ordenamiento** asc/desc por: **market_cap**, **volumen** e **ids**.
 * **Detalle por moneda**: precio actual, ranking, variación/crecimiento.
 * **Conversor** de criptomoneda → **USD**.
-* **Próximamente**: gráfico de variación de precio.
-
+* **Mejoras a futuro**: 
+    gráfico de variación de precio.
+    Spinner de carga.
+    Modificar el active de la barra de menu.
 ---
 
 ## 🧱 Stack técnico
@@ -46,7 +48,7 @@ Parámetros típicos:
 * `sparkline`: `false`.
 * `price_change_percentage`: por ejemplo `24h` (si aplica para métricas de crecimiento).
 
-> La **búsqueda por nombre** se realiza **desde el frontend** filtrando por coincidencia parcial (*contains*) sobre el nombre/símbolo.
+> La **búsqueda por nombre** se realiza **desde el frontend** filtrando por coincidencia total sobre el nombre/símbolo.
 
 ---
 
@@ -72,19 +74,14 @@ cd <carpeta-del-repo>
 npm install
 ```
 
-Dependencias principales (ver `package.json` para el detalle exacto):
+Dependencias (ver `package.json` para el detalle exacto):
 
 * `@angular/*` (core, common, router, forms, platform-browser, etc.)
 * `@angular/common/http`
 * `tailwindcss`, `postcss`, `autoprefixer` (si ya están incluidos en el repo)
+* rxjs
 
-> **Nota**: El proyecto ya viene configurado para Tailwind. Si clonás y `npm install` alcanza, no hace falta pasos extra. Si no, asegurate de tener `tailwind.config.js`, `postcss.config.js` y las directivas `@tailwind` en `styles.css`.
-
-### 3) Variables/ambientes
-
-No se requiere API key para CoinGecko. Si el proyecto usa `environment.ts` para el `baseUrl` de la API, verificá `src/environments/environment.ts`.
-
-### 4) Levantar en desarrollo
+### 3) Levantar en desarrollo
 
 ```bash
 # opción 1 (scripts del package.json, si existen)
