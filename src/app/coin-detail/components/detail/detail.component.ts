@@ -3,12 +3,8 @@ import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { CurrencyPipe, DecimalPipe, Location } from '@angular/common';
 import { coinDetailService, CoinDetail } from '../../service/coin-detail.service';
 import { FormsModule } from '@angular/forms';
-
-import { Chart, ChartConfiguration, ChartData, LineController, LineElement, PointElement, LinearScale, TimeScale, Tooltip, Filler, Legend } from 'chart.js';
-import 'chartjs-adapter-date-fns';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-Chart.register(LineController, LineElement, PointElement, LinearScale, TimeScale, Tooltip, Filler, Legend);
 
 type RangePreset = {
   label: '24H' | '7D' | '30D' | '90D' | '1Y' | 'Max';
@@ -45,13 +41,12 @@ export class DetailComponent {
   ranges = PRESETS;
   selectedRange = signal<RangePreset>(this.ranges[1]);
 
-  // --- Detalle de la moneda ---
-  coin$ = this.api.getCoin(this.id);
+  coins = this.api.getCoin(this.id);
   
   coin = signal<CoinDetail | undefined>(undefined);
 
   constructor() {
-    this.coin$
+    this.coins
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(c => this.coin.set(c));
   }
